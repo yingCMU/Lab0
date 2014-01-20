@@ -9,10 +9,10 @@ public class CommunicationInfra {
 			System.out.println("Usage: java CommunicationInfra <config file> <process uid> \n");
 			break;
 		case Constants.INVALID_CONFIG_FILE:
-			System.out.println("Configuration file is incorrectly specified \n");
+			System.out.println("Configuration file is incorrectly specified. \n");
 			break;
 		case Constants.INVALID_CONFIG_PARAMS:
-			System.out.println("Configuration file has invalid parameters please revisit it \n");
+			System.out.println("Configuration file has invalid parameters please revisit it. \n");
 		}
 		System.exit(-1);
 	}
@@ -24,5 +24,7 @@ public class CommunicationInfra {
 		}
 		
 		MessagePasser mp = new MessagePasser(args[0], args[1]);
+		Message msg = new Message("alice", "PROMPT", "This is the first message of 18842");
+		mp.send(msg);
 	}
 }
