@@ -26,5 +26,6 @@ public class CommunicationInfra {
 		MessagePasser mp = new MessagePasser(args[0], args[1]);
 		Message msg = new Message("alice", "PROMPT", "This is the first message of 18842");
 		mp.send(msg);
+		
 	}
 }

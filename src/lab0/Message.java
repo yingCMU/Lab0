@@ -17,13 +17,21 @@ public class Message implements Serializable {
 	private String dest;
 	private String kind;
 	private Object data;
-	private boolean isDuplicate = false;
-	private int id = -1;
+	private boolean duplicate = false;
+	private int seqNum = -1;
 	
 	public Message(String dest, String kind, Object data) {
 		this.setDest(dest);
 		this.setKind(kind);
 		this.setData(data);
+	}
+	public Message(String dest, String kind, Object data, String src, boolean duplicate, int seqNum) {
+		this.setDest(dest);
+		this.setKind(kind);
+		this.setData(data);
+		this.setSrc(src);
+		this.setSeqNum(seqNum);
+		this.setDuplicate(duplicate);
 	}
 	
 	public Message duplicate() throws UnsupportedOperationException {
@@ -107,19 +115,24 @@ public class Message implements Serializable {
 		this.data = data;
 	}
 
-	public boolean isDuplicate() {
-		return isDuplicate;
+	public boolean getDuplicate() {
+		return duplicate;
 	}
 
 	public void setDuplicate(boolean duplicate) {
-		this.isDuplicate = duplicate;
+		this.duplicate = duplicate;
 	}
 
-	public int getId() {
-		return id;
+	public int getSeqNum() {
+		return seqNum;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setSeqNum(int id) {
+		this.seqNum = id;
 	}
+	
+	public Message clone(boolean duplicate){
+		return new Message(this.dest, this.kind, this.data, this.src,duplicate,this.seqNum );
+	}
+	
 }

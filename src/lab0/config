@@ -2,10 +2,16 @@
 configuration :
  - name : alice
    ip : 127.0.0.1
-   port : 12344 
+   port : 12349
  - name : bob
    ip : 127.0.0.1
-   port : 14255
+   port : 14258
+ - name : cat
+   ip : 127.0.0.1
+   port : 14237
+ - name : dad
+   ip : 127.0.0.1
+   port : 14246
  - name : charlie
    ip : 128.2.130.19
    port : 12998

@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-public class WorkerThread implements Runnable {
+import org.apache.log4j.Logger;
 
+public class WorkerThread implements Runnable {
+	private static Logger log = Logger.getLogger(WorkerThread.class);  
+	
 	private MessagePasser mp;
 	private Socket socket;
 	
@@ -18,6 +21,7 @@ public class WorkerThread implements Runnable {
 	
 	@Override
 	public void run() {
+		log.debug(mp.getName()+ " workerThread");
 		ObjectInputStream objIpStream = null;
 		Message msg = null;
 		String src = null;
@@ -25,9 +29,15 @@ public class WorkerThread implements Runnable {
 		try {
 			objIpStream = new ObjectInputStream(socket.getInputStream());
 			while(true) {
+				/*
+				 * If there are no bytes buffered on the socket, 
+				 * or all buffered bytes have been consumed by read, then all
+				 */
+				log.debug("-- waiting for incoming msg");
 				msg = (Message)objIpStream.readObject();
 				assert msg instanceof Message;
 				src = new String(msg.getSrc());
+				log.debug("--put msg into rcvqueue");
 				mp.getRcvQueue().add(msg);
 			}
 		} catch (ClassNotFoundException e) {
@@ -41,6 +51,7 @@ public class WorkerThread implements Runnable {
 		} finally {
 			if (objIpStream != null) {
 				try {
+					socket.close();
 					objIpStream.close();
 				} catch (IOException e) {
 					e.printStackTrace();
